@@ -77,7 +77,67 @@ def insert():
         for widget in rightFrame.winfo_children():
             widget.destroy()
         #atualiza a interface com os novos datos
-        mostrar()
+        show()
+
+def atualizar():
+    try:
+        #>Atualizando os dados selecionados em uma treeview(widget do tkinter usado para exibir dados em forma de tabela)<
+        #-----------------------------------------------------------------------------------
+        #focus() é uma função que retorna o item atualmente selecionado na arvore de dados
+        treev_dados = tree.focus() #atribui o resultado da função focus do obj tree a variavel treev_dados
+        treev_dicionario = tree.item(treev_dados)
+        treev_lista = treev_dicionario['values']
+        valor = treev_lista[0]
+        
+        #limpa o conteudo do campo de texto e especifica o inicio (0) e o dim (end) a ser limpado
+        e_nome.delete(0, 'end')
+        e_email.delete(0, 'end')
+        e_tel.delete(0, 'end')
+        cal.delete(0, 'end')
+        e_estado.delete(0, 'end')
+        e_assunto.delete(0, 'end')
+        
+        #insere o valor do item no campo de texto, treev_lista[1] é o valor do item que foi obtido anteriormente
+        e_nome.insert(0, treev_lista[1])
+        e_email.insert(0, treev_lista[2])
+        e_tel.insert(0, treev_lista[3])
+        cal.insert(0, treev_lista[4])
+        e_estado.insert(0, treev_lista[5])
+        e_assunto.insert(0, treev_lista[6])
+        
+        def update():
+            nome = e_nome.get()
+            email = e_email.get()
+            telefone = e_tel.get()
+            dia = cal.get()
+            estado = e_estado.get()
+            assunto = e_assunto.get()
+            
+            update_list = [nome, email, telefone, dia, estado, assunto, valor]
+
+            if e_nome.get() == '':
+                messagebox.showerror('Erro', 'Preencha todos os campos!')
+            else:
+                atualizar_form(update_list)
+                
+                messagebox.showinfo('Sucesso', 'Os dados foram atualizados com sucesso!')
+                
+                e_nome.delete(0, 'end')
+                e_email.delete(0, 'end')
+                e_tel.delete(0, 'end')
+                cal.delete(0, 'end')
+                e_estado.delete(0, 'end')
+                e_assunto.delete(0, 'end')
+                
+                botao_confirmar.destroy()
+                
+                for widgrt in rightFrame.winfo_children():
+                    widget.destroy()
+                show()
+                
+                
+    except IndexError:
+        messagebox.showerror('Erro', 'Selecione um dos dados na tabela!')
 
 
 
