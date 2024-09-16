@@ -106,6 +106,8 @@ def atualizar():
         e_assunto.insert(0, treev_lista[6])
         
         def update():
+            
+            #obtem os valores dos campos de texto
             nome = e_nome.get()
             email = e_email.get()
             telefone = e_tel.get()
@@ -113,8 +115,10 @@ def atualizar():
             estado = e_estado.get()
             assunto = e_assunto.get()
             
+            #criar uma lista com os valores obtidos
             update_list = [nome, email, telefone, dia, estado, assunto, valor]
 
+            #verifica se o campo está vazio
             if e_nome.get() == '':
                 messagebox.showerror('Erro', 'Preencha todos os campos!')
             else:
@@ -131,16 +135,80 @@ def atualizar():
                 
                 botao_confirmar.destroy()
                 
-                for widgrt in rightFrame.winfo_children():
+                for widget in rightFrame.winfo_children():
                     widget.destroy()
                 show()
-                
+        botao_confirmar = Button(downFrame, command=update, text='Confirmar', width=10, height=1, bg=c02_green, fg=c01_white, font=('Ivy 7 bold'), relief=RAISED, overrelief=RIDGE)
+        botao_confirmar.place(x=105, y=380)
                 
     except IndexError:
         messagebox.showerror('Erro', 'Selecione um dos dados na tabela!')
+def delete():
+    try:
+        #tree é um obj que representa uma árvore de dados, focus() é uma função que retorna o item atualmente selecionado
+        treev_dados = tree.focus() #obtem o item selecionado na árvore de dados
+        treev_dicionario = tree.item(treev_dados) #obtém um dicionarios de informações do item selecionado
+        treev_lista = treev_dicionario['values'] #obtém a lista de valores do item [values é uma chave do dicionario que contem a lista de valores do item]
+        valor = treev_lista[0] #obtem o primeiro valor da lista
+        
+        deletar_form([valor]) #chama a função com o valor
+        print(valor)
+        
+        messagebox.showinfo('Sucesso', 'Os dados foram deletados com sucesso!')
+        
+        for widget in rightFrame.winfo_children(): #iterar sobre os widgets do frame
+            widget.destroy()
+            
+        show()
+        
+    except IndexError:
+        messagebox.showerror('Erro', 'Selecione um dos dados na tabela!')
+
+#criando label no Frame de baixo
+l_nome = Label(downFrame, text = 'Nome *', height=1, anchor=NW, font=('Ivy 10 bold'), bg=c01_white, fg=c04_letter)
+l_nome.place(x=10, y=10) #posicionando o label no frame
+#criando campo de texto, Entry é um widget que permite o usuário digitar o texto
+e_nome = Entry(downFrame, width=45, justify='left', relief='solid')
+e_nome.place(x=15, y=40)
+
+l_email = Label(downFrame, text = 'Email *', height=1, anchor=NW, font=('Ivy 10 bold'), bg=c01_white, fg=c04_letter)
+l_email.place(x=10, y=70) #posicionando o label no frame
+#criando campo de texto, Entry é um widget que permite o usuário digitar o texto
+e_email = Entry(downFrame, width=45, justify='left', relief='solid')
+e_email.place(x=15, y=100)
+
+l_tel = Label(downFrame, text = 'Telefone *', height=1, anchor=NW, font=('Ivy 10 bold'), bg=c01_white, fg=c04_letter)
+l_tel.place(x=10, y=130) #posicionando o label no frame
+#criando campo de texto, Entry é um widget que permite o usuário digitar o texto
+e_tel = Entry(downFrame, width=45, justify='left', relief='solid')
+e_tel.place(x=15, y=160)
+
+l_cal = Label(downFrame, text = 'Data da consulta *', height=1, anchor=NW, font=('Ivy 10 bold'), bg=c01_white, fg=c04_letter)
+l_cal.place(x=10, y=190) #posicionando o label no frame
+#criando campo de texto, Entry é um widget que permite o usuário digitar o texto
+cal = DateEntry(downFrame, width=12, background='darkblue', foreground='white', borderwidth=2, year=2024) #DateEntry fornece o calendário para selecionar uma data, year se refere ao ano inicial do calendárop
+cal.place(x=15, y=220)
+
+l_estado = Label(downFrame, text = 'Estado da consulta *', height=1, anchor=NW, font=('Ivy 10 bold'), bg=c01_white, fg=c04_letter) 
+l_estado.place(x=160, y=190) #posicionando o label no frame
+#criando campo de texto, Entry é um widget que permite o usuário digitar o texto
+e_estado = Entry(downFrame, width=20, justify='left', relief='solid')
+e_estado.place(x=160, y=220)
+
+l_assunto = Label(downFrame, text = 'Consulta sobre *', height=1, anchor=NW, font=('Ivy 10 bold'), bg=c01_white, fg=c04_letter) 
+l_assunto.place(x=10, y=160) #posicionando o label no frame
+#cassunto campo de texto, Entry é um widget que permite o usuário digitar o texto
+e_assunto = Entry(downFrame, width=45, justify='left', relief='solid')
+e_assunto.place(x=15, y=290)
+
+insert_button = Button(downFrame, command=insert, text='Inserir', width=10, height=1, bg=c06_blue, fg=c01_white, font=('Ivy 10 bold'), relief=RAISED, overrelief=RIDGE)
+insert_button.place(x=15, y=340)
 
 
+update_button = Button(downFrame, command=atualizar, text='Atualizar', width=10, height=1, bg=c02_green, fg=c01_white, font=('Ivy 10 bold'), relief=RAISED, overrelief=RIDGE)
+update_button.place(x=105, y=340)
 
-
+delete_button = Button(downFrame, command=delete, text='Deletar', width=10, height=1, bg=c07_red, fg=c01_white, font=('Ivy 10 bold'), relief=RAISED, overrelief=RIDGE)
+delete_button.place(x=190, y=340)
 
 janela.mainloop()
