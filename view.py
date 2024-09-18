@@ -13,7 +13,7 @@ lista = [['Yas Alves', 'yas@gmail.com', 12345678, '14/12/2020', 'Normal', 'Consu
 #insert form
 def inserir_form(i): # i é uma lista de valores que sera inserida no form
     with con:
-        cur = con.cursos()
+        cur = con.cursor()
         query = 'INSERT INTO Formulario(nome, email, telefone, dia_em, estado, assunto) VALUES (?, ?, ?, ?, ?, ?)'
         cur.execute(query, i)      
         
@@ -22,7 +22,7 @@ def deletar_form(i):
     
     with con:
         cur = con.cursor()
-        query = 'DELTE FROM Formulario WHERE id = ?'
+        query = 'DELETE FROM Formulario WHERE id = ?'
         cur.execute(query, i)
         
 #Update form
